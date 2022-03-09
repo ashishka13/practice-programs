@@ -14,7 +14,7 @@ func PrintStringRecursion(s string) {
 	PrintStringRecursion(s)
 }
 
-func StringRev(strInput string) {
+func StringRevWithoutSplChars(strInput string) {
 	strProcess := make([]string, 0)
 	strProcess2 := make([]string, len(strInput))
 
@@ -166,6 +166,99 @@ func ArmstrongNum(num int) {
 	}
 }
 
+func ReverseNumber(num int) {
+	n := num
+	palindrome := 0
+	digit := 0
+
+	for n > 0 {
+		digit = n % 10
+		palindrome = (palindrome * 10) + digit
+		n = n / 10
+	}
+
+	log.Println(palindrome)
+}
+
+func PrimeOrNotInRange(num1, num2 int) {
+	if num1 < 2 || num2 < 2 {
+		log.Println("Numbers must be greater than 2.")
+		return
+	}
+	for num1 <= num2 {
+		isPrime := true
+		for i := 2; i <= num1/2; i++ {
+			if num1%i == 0 {
+				isPrime = false
+				break
+			}
+		}
+		if isPrime {
+			log.Println(num1)
+		}
+		num1++
+	}
+}
+
+//0 1 1 2 3 5 8 13 21 34 55 89 114
+func Fibonacci(foboRange int) {
+	prev, next, answer := 0, 1, 0
+
+	log.Print(prev)
+	log.Println(next)
+	for i := 0; i < foboRange; i++ {
+		answer = prev + next
+		prev = next
+		next = answer
+		log.Print(answer)
+	}
+}
+
+//0 1 1 2 3 5 8 13 21 34 55 89 114
+func FibonacciRecursive(fiboRange, prev, next, answer int) {
+	if fiboRange == 0 {
+		return
+	}
+	answer = prev + next
+	prev = next
+	next = answer
+	log.Print("answer", answer)
+	FibonacciRecursive(fiboRange-1, prev, next, answer)
+}
+
+func FindDupStringChars(str string) {
+	strArr := strings.Split(str, "")
+	dupMap := make(map[string]int)
+	for _, val := range strArr {
+		if _, ok := dupMap[val]; !ok {
+			dupMap[val] = 1
+		} else {
+			log.Println("duplicate emelent ", val)
+		}
+	}
+}
+
+func FindUniqueChars(str string) {
+	strArr := strings.Split(str, "")
+	dupMap := make(map[string]bool)
+	for _, val := range strArr {
+		if ok := dupMap[val]; !ok {
+			log.Println("unique emelent ", val)
+			dupMap[val] = true
+		}
+	}
+}
+
+func ReverseStringNormal(str string) {
+	revStr := ""
+	for len(str) > 0 {
+		lastindex := len(str) - 1
+		b := str[lastindex:]
+		str = str[:lastindex]
+		revStr = revStr + b
+	}
+	log.Println(revStr)
+}
+
 func main() {
-	ArmstrongNum(163)
 }
