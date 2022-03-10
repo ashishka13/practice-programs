@@ -352,6 +352,40 @@ func ShuffleNumbers(num []int) {
 	}
 }
 
+func MaxOfThreeNum(num1, num2, num3 int) {
+	max := num1
+	if max < num2 {
+		max = num2
+	}
+	if max < num3 {
+		max = num3
+	}
+	log.Println("max", max)
+}
+
+func SumOfDigits(num int) {
+	sum := 0
+	for num > 0 {
+		digit := num % 10
+		sum = sum + digit
+		num = num / 10
+	}
+	log.Println(sum)
+}
+
+func FindNumPowerOfOtherNum(num1, num2 int) {
+	for num1 < num2 {
+		num1 := num1 * num1
+		log.Println("print", num1, num2)
+
+		if num2 == num1 {
+			log.Println("power of each other", num1, num2)
+			return
+		}
+	}
+	log.Println("Not power of each other", num1, num2)
+}
+
 func main() {
-	StringRevWithoutSplChars2("a#b$!@&*c^d,")
+	FindNumPowerOfOtherNum(2, 126)
 }
