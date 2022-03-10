@@ -15,34 +15,32 @@ func PrintStringRecursion(s string) {
 }
 
 func StringRevWithoutSplChars(strInput string) {
-	strProcess := make([]string, 0)
-	strProcess2 := make([]string, len(strInput))
+	processInput1 := strInput
+	revChars := []string{}
+	placeHolders := make([]string, len(strInput))
 
-	for i, j := len(strInput)-1, 0; i >= 0; i, j = i-1, j+1 {
-		if (strInput[i] >= 'A' && strInput[i] <= 'Z') || (strInput[i] >= 'a' && strInput[i] <= 'z') {
-			stringVal := string(strInput[i])
-			strProcess = append(strProcess, stringVal)
+	for len(processInput1) > 0 {
+		index := len(processInput1) - 1
+		s := processInput1[index:]
+		if (s >= "a" && s <= "z") || (s >= "A" && s <= "Z") {
+			revChars = append(revChars, s)
+			placeHolders[index] = ""
+			processInput1 = processInput1[:index]
+			continue
 		}
+		placeHolders[index] = s
+		processInput1 = processInput1[:index]
+	}
 
-		if (strInput[j] >= 'A' && strInput[j] <= 'Z') || (strInput[j] >= 'a' && strInput[j] <= 'z') {
-		} else {
-			stringVal := string(strInput[j])
-			strProcess2[j] = stringVal
+	for key, val := range placeHolders {
+		if val == "" {
+			placeHolders[key] = revChars[0]
+			revChars = revChars[1:]
 		}
 	}
 
-	position2 := 0
-	op2 := ""
-	for i := 0; i < (len(strProcess2)); i++ {
-		if strProcess2[i] == "" {
-			strProcess2[i] = strProcess[position2]
-			position2++
-		}
-		op2 = op2 + strProcess2[i]
-	}
-
-	log.Println(strInput)
-	log.Println(op2)
+	log.Println(strings.Split(strInput, ""))
+	log.Println(placeHolders)
 }
 
 func PrintStringClosure(a string) func() bool {
@@ -167,17 +165,16 @@ func ArmstrongNum(num int) {
 }
 
 func ReverseNumber(num int) {
-	n := num
-	palindrome := 0
+	rev := 0
 	digit := 0
 
-	for n > 0 {
-		digit = n % 10
-		palindrome = (palindrome * 10) + digit
-		n = n / 10
+	for num > 0 {
+		digit = num % 10
+		rev = (rev * 10) + digit
+		num = num / 10
 	}
 
-	log.Println(palindrome)
+	log.Println(rev)
 }
 
 func PrimeOrNotInRange(num1, num2 int) {
@@ -260,5 +257,101 @@ func ReverseStringNormal(str string) {
 	log.Println(revStr)
 }
 
+func BubbleSort(numbers []int) {
+	// 6 5 7 1 3 4
+	counter := 0
+	for i := 0; i < len(numbers); i++ {
+		for j := i + 1; j < len(numbers); j++ {
+			if numbers[i] > numbers[j] {
+				temp := numbers[j]
+				numbers[j] = numbers[i]
+				numbers[i] = temp
+			}
+			counter++
+		}
+	}
+	log.Println(numbers)
+}
+
+func QuickSort(a []int) []int {
+	if len(a) < 2 {
+		return a
+	}
+
+	left, right, pivot := 0, len(a)-1, len(a)/2
+
+	a[pivot], a[right] = a[right], a[pivot] // swap
+
+	for i := range a {
+		if a[i] < a[right] {
+			a[left], a[i] = a[i], a[left]
+			left++
+		}
+	}
+
+	a[left], a[right] = a[right], a[left] // swap
+
+	QuickSort(a[:left])
+	QuickSort(a[left+1:])
+
+	return a
+}
+
+func AnagramString(str1, str2 string) {
+	if len(str1) != len(str2) {
+		log.Println("length not same not anagrams")
+		return
+	}
+	strArr1 := strings.Split(str1, "")
+	strArr2 := strings.Split(str2, "")
+	counterflag := 0
+
+	for i := 0; i < len(strArr1); i++ {
+		for j := 0; j < len(strArr2); j++ {
+			if strArr1[i] == strArr2[j] {
+				counterflag++
+				break
+			}
+		}
+	}
+	if counterflag == len(str1) {
+		log.Println("anagrams", counterflag)
+		return
+	}
+	log.Println("not anagrams", counterflag)
+}
+
+func GetSubstringCombinations(str string) {
+	strarr := strings.Split(str, "")
+	for i := 0; i < len(strarr); i++ {
+		for j := i + 1; j < len(strarr); j++ {
+			if strarr[i] != strarr[j] {
+				temp := strarr[i]
+				strarr[i] = strarr[j]
+				strarr[j] = temp
+				a := ""
+				for _, val := range strarr {
+					a = a + val
+				}
+				log.Println(a)
+			}
+		}
+	}
+}
+
+func ShuffleNumbers(num []int) {
+	for i := 0; i < len(num); i++ {
+		for j := i + 1; j < len(num); j++ {
+			if num[i] != num[j] {
+				temp := num[i]
+				num[i] = num[j]
+				num[j] = temp
+				log.Println(num)
+			}
+		}
+	}
+}
+
 func main() {
+	StringRevWithoutSplChars2("a#b$!@&*c^d,")
 }
