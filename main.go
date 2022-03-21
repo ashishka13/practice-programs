@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strings"
 )
@@ -24,18 +25,18 @@ func StringRevWithoutSplChars(strInput string) {
 		s := processInput1[index:]
 		if (s >= "a" && s <= "z") || (s >= "A" && s <= "Z") {
 			revChars = append(revChars, s)
-			placeHolders[index] = ""
+			placeHolders[index] = "" // empty instead of normal character
 			processInput1 = processInput1[:index]
 			continue
 		}
-		placeHolders[index] = s
+		placeHolders[index] = s //special character
 		processInput1 = processInput1[:index]
-	}
+	} // at this stage we have 2 arrays. 1) normal letters reversed, 2) special letters without normal letters
 
 	for key, val := range placeHolders {
 		if val == "" {
-			placeHolders[key] = revChars[0]
-			revChars = revChars[1:]
+			placeHolders[key] = revChars[0] // append only the first letter of normal array
+			revChars = revChars[1:]         // reduce array length by 1 only
 		}
 	}
 
@@ -79,15 +80,15 @@ func ReverseWordsInString(sentence string) {
 	wordsArray := strings.Fields(sentence)
 	wordsString := ""
 	for _, val := range wordsArray {
-		wordsArray2 := strings.Split(val, "")
+		singleWord := val
 		singleRevWord := ""
 		reverseArr := []string{}
 
-		for len(wordsArray2) > 0 {
-			lastindex := len(wordsArray2) - 1
-			b := wordsArray2[lastindex:]
-			wordsArray2 = wordsArray2[:lastindex]
-			reverseArr = append(reverseArr, b[0])
+		for len(singleWord) > 0 {
+			index := len(singleWord) - 1
+			b := singleWord[index:]
+			singleWord = singleWord[:index]
+			reverseArr = append(reverseArr, b)
 		}
 
 		for i := 0; i < len(reverseArr); i++ {
@@ -161,7 +162,7 @@ func ArmstrongNum(num int) {
 		log.Println("armstrong number")
 	} else {
 		log.Println("not Armstrong")
-	}
+	} // 153 Armstrong example
 }
 
 func ReverseNumber(num int) {
@@ -211,8 +212,12 @@ func Fibonacci(foboRange int) {
 	}
 }
 
+func FibonacciRecursive(fiborange int) {
+	fibonacciRecursiveInner(fiborange, 0, 1, 0)
+}
+
 //0 1 1 2 3 5 8 13 21 34 55 89 114
-func FibonacciRecursive(fiboRange, prev, next, answer int) {
+func fibonacciRecursiveInner(fiboRange, prev, next, answer int) {
 	if fiboRange == 0 {
 		return
 	}
@@ -220,7 +225,7 @@ func FibonacciRecursive(fiboRange, prev, next, answer int) {
 	prev = next
 	next = answer
 	log.Print("answer", answer)
-	FibonacciRecursive(fiboRange-1, prev, next, answer)
+	fibonacciRecursiveInner(fiboRange-1, prev, next, answer)
 }
 
 func FindDupStringChars(str string) {
@@ -386,6 +391,113 @@ func FindNumPowerOfOtherNum(num1, num2 int) {
 	log.Println("Not power of each other", num1, num2)
 }
 
+func PanicRecovery() {
+	defer handleOutOfBounds()
+
+	a := []int{5, 1, 2, 3}
+	for i := 0; i < 10; i++ {
+		log.Print(a[i])
+	}
+
+	log.Println("after recovery")
+}
+
+func handleOutOfBounds() {
+	if r := recover(); r != nil {
+		fmt.Println("Recovering from panic:", r)
+	}
+}
+
+func CheckParentheses(str string) {
+	myStack := ""
+
+	for i := 0; i < len(str); i++ {
+		if string(str[i]) == "{" || string(str[i]) == "(" || string(str[i]) == "[" {
+			myStack = myStack + string(str[i])
+		} else if myStack == "" && (string(str[i]) == "}" || string(str[i]) == ")" || string(str[i]) == "]") {
+			log.Println("no opening bracket for the closing bracket")
+			return
+		}
+
+		if string(str[i]) == "}" || string(str[i]) == ")" || string(str[i]) == "]" {
+			index := len(myStack) - 1
+			lastOpen := myStack[index:]
+			if (string(str[i]) == "}" && lastOpen == "{") || (string(str[i]) == "]" && lastOpen == "[") || (string(str[i]) == ")" && lastOpen == "(") {
+				myStack = myStack[:index]
+				continue
+			} else {
+				log.Println("first closing not matching with last opening")
+				return
+			}
+		}
+	}
+	log.Println("all bracket matched")
+}
+
+func CheckPotentialPalindrome(str1 string) bool {
+	m1 := make(map[string]int)
+	for i := 0; i < len(str1); i++ {
+		if _, ok := m1[string(str1[i])]; !ok {
+			m1[string(str1[i])] = 1
+		} else {
+			m1[string(str1[i])] = m1[string(str1[i])] + 1
+		}
+	}
+	log.Println(m1)
+	oddRepeat := 0
+	for _, val := range m1 {
+		if val%2 != 0 {
+			oddRepeat++
+		}
+	}
+	if oddRepeat > 1 {
+		log.Println("more than 1 single chars")
+		return false
+	}
+	return true
+}
+
+func RemoveAdjacentDuplicateLetter(str string) {
+	mystack := "" //aaabbccd
+	mp := make(map[string]int)
+	strArr := strings.Split(str, "")
+	for i := 0; i < len(str); i++ {
+		if _, ok := mp[strArr[i]]; !ok {
+			mp[strArr[i]] = 1
+		} else {
+			mp[strArr[i]] = mp[strArr[i]] + 1
+		}
+	}
+	log.Println(mp)
+	for key, val := range mp {
+		if val == 1 || val%2 != 0 {
+			mystack = mystack + key
+		}
+	}
+	log.Println(mystack)
+	// 1 abbaca
+	// 2 aaca
+	// 3 ca
+}
+
+func PrintAllSubstrings(str string) {
+	for i := 0; i < len(str); i++ {
+		for j := 0; j < len(str)-i; j++ {
+
+		}
+	}
+}
+
+func FindSmallestNumber(arr []int) {
+	min := arr[0]
+	for i := 1; i < len(arr); i++ {
+		if min > arr[i] {
+			min = arr[i]
+		}
+	}
+	log.Println(min)
+}
+
 func main() {
-	FindNumPowerOfOtherNum(2, 126)
+	FindSmallestNumber([]int{7, 4, 1, 2, 5, 8, 9, 6, 3, 2, 1, 4, 5, 6, 9, 8, 7, 4, 5, 2, 1, 3, 6, 9, 8, 5, 2})
 }
