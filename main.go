@@ -11,30 +11,30 @@ func PrintStringRecursion(s string) {
 	if s == "" {
 		return
 	}
-	s = s[1:] // skip first position and reassign to same string variable
-	PrintStringRecursion(s)
+	s = s[1:]               // skip first position and reassign to same string variable
+	PrintStringRecursion(s) // send the trimmed variable to same function
 }
 
 func StringRevWithoutSplChars(strInput string) {
 	processInput1 := strInput
-	revChars := []string{}
-	placeHolders := make([]string, len(strInput))
+	revChars := []string{}                        // store one one character
+	placeHolders := make([]string, len(strInput)) // store only special characters at their original places
 
 	for len(processInput1) > 0 {
 		index := len(processInput1) - 1
-		s := processInput1[index:]
-		if (s >= "a" && s <= "z") || (s >= "A" && s <= "Z") {
-			revChars = append(revChars, s)
-			placeHolders[index] = "" // empty instead of normal character
-			processInput1 = processInput1[:index]
-			continue
+		s := processInput1[index:]                            // get last character of a word
+		if (s >= "a" && s <= "z") || (s >= "A" && s <= "Z") { // check if it is in a z range
+			revChars = append(revChars, s)        // if normal character then add it in char array
+			placeHolders[index] = ""              // and keep track of special array with assigning empty instead of normal character
+			processInput1 = processInput1[:index] // reduce reversing string length
+			continue                              // continue beacause we have found the normal char
 		}
-		placeHolders[index] = s //special character
-		processInput1 = processInput1[:index]
-	} // at this stage we have 2 arrays. 1) normal letters reversed, 2) special letters without normal letters
-
+		placeHolders[index] = s               // special character at original place
+		processInput1 = processInput1[:index] // reduce reversing string length
+	}
+	// at this stage we have 2 arrays. 1) normal letters reversed, 2) special letters without normal letters
 	for key, val := range placeHolders {
-		if val == "" {
+		if val == "" { // start replacing empty spaces with normal characters
 			placeHolders[key] = revChars[0] // append only the first letter of normal array
 			revChars = revChars[1:]         // reduce array length by 1 only
 		}
@@ -77,31 +77,31 @@ func PrintStringClosure(a string) func() bool {
 func ReverseWordsInString(sentence string) {
 	log.Println("ip ", sentence)
 
-	wordsArray := strings.Fields(sentence)
-	wordsString := ""
-	for _, val := range wordsArray {
-		singleWord := val
-		singleRevWord := ""
-		reverseArr := []string{}
+	wordsArray := strings.Fields(sentence) // crete array of every word in sentence
+	wordsString := ""                      // create a var to store reversed words one by one
+	for _, val := range wordsArray {       // iterate over sentence words array
+		singleWord := val        // use this variable for operations, not the original one
+		singleRevWord := ""      // store single reversed word
+		reverseArr := []string{} // store single reversed letter in array
 
-		for len(singleWord) > 0 {
+		for len(singleWord) > 0 { // word reversal code
 			index := len(singleWord) - 1
 			b := singleWord[index:]
 			singleWord = singleWord[:index]
-			reverseArr = append(reverseArr, b)
+			reverseArr = append(reverseArr, b) // append reversed letter
 		}
 
 		for i := 0; i < len(reverseArr); i++ {
-			singleRevWord = singleRevWord + reverseArr[i]
+			singleRevWord = singleRevWord + reverseArr[i] // create single reversed word from reversed array
 		}
 
 		wordsString = wordsString + " " + singleRevWord
-	}
+	} // for loop will run according to number of words
 	log.Println("op", wordsString)
 }
 
 func PalindromeString(str string) {
-	for i, j := len(str)-1, 0; i > 0; i, j = i-1, j+1 {
+	for i, j := len(str)-1, 0; i > 0; i, j = i-1, j+1 { // check equal distance letters. center letter will also get checked.
 		ival := string(str[i])
 		jval := string(str[j])
 
@@ -162,7 +162,7 @@ func ArmstrongNum(num int) {
 		log.Println("armstrong number")
 	} else {
 		log.Println("not Armstrong")
-	} // 153 Armstrong example
+	} // 153 Armstrong example. 1^3 + 5^3 + 3^3 = 153
 }
 
 func ReverseNumber(num int) {
@@ -231,7 +231,7 @@ func fibonacciRecursiveInner(fiboRange, prev, next, answer int) {
 
 func FindDupStringChars(str string) {
 	strArr := strings.Split(str, "")
-	dupMap := make(map[string]int)
+	dupMap := make(map[string]int) // use map to store unique values with its count
 	for _, val := range strArr {
 		if _, ok := dupMap[val]; !ok {
 			dupMap[val] = 1
@@ -254,9 +254,9 @@ func FindUniqueChars(str string) {
 
 func ReverseStringNormal(str string) {
 	revStr := ""
-	for len(str) > 0 {
+	for len(str) > 0 { // basic reverse string code
 		lastindex := len(str) - 1
-		b := str[lastindex:]
+		b := str[lastindex:] // locates last position of string array
 		str = str[:lastindex]
 		revStr = revStr + b
 	}
@@ -268,7 +268,7 @@ func BubbleSort(numbers []int) {
 	counter := 0
 	for i := 0; i < len(numbers); i++ {
 		for j := i + 1; j < len(numbers); j++ {
-			if numbers[i] > numbers[j] {
+			if numbers[i] > numbers[j] { // number swap code
 				temp := numbers[j]
 				numbers[j] = numbers[i]
 				numbers[i] = temp
@@ -279,30 +279,32 @@ func BubbleSort(numbers []int) {
 	log.Println(numbers)
 }
 
-func QuickSort(a []int) []int {
-	if len(a) < 2 {
-		return a
+func QuickSort(nums []int) []int {
+	if len(nums) < 2 {
+		return nums
 	}
 
-	left, right, pivot := 0, len(a)-1, len(a)/2
+	left, right, pivot := 0, len(nums)-1, len(nums)/2
+	// left = leftmost num, right = rightmost num, pivot = central num
 
-	a[pivot], a[right] = a[right], a[pivot] // swap
+	nums[pivot], nums[right] = nums[right], nums[pivot] // swap pivote and right positions
 
-	for i := range a {
-		if a[i] < a[right] {
-			a[left], a[i] = a[i], a[left]
+	for i := range nums {
+		if nums[i] < nums[right] { // check if i'th position is less than swapped rightmost
+			nums[left], nums[i] = nums[i], nums[left] // swap left and i'th position
 			left++
 		}
 	}
 
-	a[left], a[right] = a[right], a[left] // swap
+	nums[left], nums[right] = nums[right], nums[left] // swap code
 
-	QuickSort(a[:left])
-	QuickSort(a[left+1:])
+	QuickSort(nums[:left])
+	QuickSort(nums[left+1:])
 
-	return a
+	return nums
 }
 
+// equal length and number of letters but order can be different
 func AnagramString(str1, str2 string) {
 	if len(str1) != len(str2) {
 		log.Println("length not same not anagrams")
@@ -315,19 +317,19 @@ func AnagramString(str1, str2 string) {
 	for i := 0; i < len(strArr1); i++ {
 		for j := 0; j < len(strArr2); j++ {
 			if strArr1[i] == strArr2[j] {
-				counterflag++
-				break
+				counterflag++ // count to keep track of matched letters
+				break         // if just single letter is found, break j loop and go to next i loop
 			}
 		}
 	}
-	if counterflag == len(str1) {
+	if counterflag == len(str1) { // because equal number of chars and length
 		log.Println("anagrams", counterflag)
 		return
 	}
 	log.Println("not anagrams", counterflag)
 }
 
-func GetSubstringCombinations(str string) {
+func GetStringCombinations(str string) {
 	strarr := strings.Split(str, "")
 	for i := 0; i < len(strarr); i++ {
 		for j := i + 1; j < len(strarr); j++ {
@@ -348,7 +350,7 @@ func GetSubstringCombinations(str string) {
 func ShuffleNumbers(num []int) {
 	for i := 0; i < len(num); i++ {
 		for j := i + 1; j < len(num); j++ {
-			if num[i] != num[j] {
+			if num[i] != num[j] { // use swap logic to swap numbers mutiple times in for loop
 				temp := num[i]
 				num[i] = num[j]
 				num[j] = temp
@@ -359,8 +361,8 @@ func ShuffleNumbers(num []int) {
 }
 
 func MaxOfThreeNum(num1, num2, num3 int) {
-	max := num1
-	if max < num2 {
+	max := num1     // assume 1st num is max.
+	if max < num2 { // if not then swap it with other
 		max = num2
 	}
 	if max < num3 {
@@ -380,12 +382,13 @@ func SumOfDigits(num int) {
 }
 
 func FindNumPowerOfOtherNum(num1, num2 int) {
-	for num1 < num2 {
-		num1 := num1 * num1
-		log.Println("print", num1, num2)
-
-		if num2 == num1 {
-			log.Println("power of each other", num1, num2)
+	temp := num1
+	counter := 1
+	for temp < num2 {
+		temp = temp * num1
+		counter++
+		if num2 == temp {
+			log.Println(counter, "power of each other", num1, num2)
 			return
 		}
 	}
@@ -394,7 +397,6 @@ func FindNumPowerOfOtherNum(num1, num2 int) {
 
 func PanicRecovery() {
 	defer handleOutOfBounds()
-
 	a := []int{5, 1, 2, 3}
 	for i := 0; i < 10; i++ {
 		log.Print(a[i])
@@ -409,22 +411,23 @@ func handleOutOfBounds() {
 	}
 }
 
+// first closing bracket must match with last opening bracket
 func CheckParentheses(str string) {
-	myStack := ""
+	myStack := "" // create a stack to add opening and remove closing brackets
 
 	for i := 0; i < len(str); i++ {
-		if string(str[i]) == "{" || string(str[i]) == "(" || string(str[i]) == "[" {
-			myStack = myStack + string(str[i])
+		if string(str[i]) == "{" || string(str[i]) == "(" || string(str[i]) == "[" { // check if opening
+			myStack = myStack + string(str[i]) // add opening bracket to stack
 		} else if myStack == "" && (string(str[i]) == "}" || string(str[i]) == ")" || string(str[i]) == "]") {
-			log.Println("no opening bracket for the closing bracket")
+			log.Println("no opening bracket for the closing bracket") // if closing bracket comes inbetween, return
 			return
 		}
 
-		if string(str[i]) == "}" || string(str[i]) == ")" || string(str[i]) == "]" {
+		if string(str[i]) == "}" || string(str[i]) == ")" || string(str[i]) == "]" { // check for closing
 			index := len(myStack) - 1
-			lastOpen := myStack[index:]
+			lastOpen := myStack[index:] // pop topmost stack element
 			if (string(str[i]) == "}" && lastOpen == "{") || (string(str[i]) == "]" && lastOpen == "[") || (string(str[i]) == ")" && lastOpen == "(") {
-				myStack = myStack[:index]
+				myStack = myStack[:index] // reduce stack after above open close testing
 				continue
 			} else {
 				log.Println("first closing not matching with last opening")
@@ -437,21 +440,23 @@ func CheckParentheses(str string) {
 
 func CheckPotentialPalindrome(str1 string) bool {
 	m1 := make(map[string]int)
-	for i := 0; i < len(str1); i++ {
+
+	for i := 0; i < len(str1); i++ { // check number of elements and their count
 		if _, ok := m1[string(str1[i])]; !ok {
 			m1[string(str1[i])] = 1
 		} else {
 			m1[string(str1[i])] = m1[string(str1[i])] + 1
 		}
 	}
+
 	log.Println(m1)
-	oddRepeat := 0
-	for _, val := range m1 {
+	oddRepeat := 0           // if repeated chars occur odd times, it should be > 1. Even times no problem.
+	for _, val := range m1 { // example: "ababa", here "a" came 3 times but still palindrome
 		if val%2 != 0 {
 			oddRepeat++
 		}
 	}
-	if oddRepeat > 1 {
+	if oddRepeat > 1 { // if "f" and "g" came only once (means repeated <1) "gababaf". No palindrome.
 		log.Println("more than 1 single chars")
 		return false
 	}
@@ -459,39 +464,37 @@ func CheckPotentialPalindrome(str1 string) bool {
 }
 
 func RemoveAdjacentDuplicateLetter(str string) {
-	mystack := "" //aaabbccd
-	mp := make(map[string]int)
-	strArr := strings.Split(str, "")
+	mystack := "" // abbaca
+
 	for i := 0; i < len(str); i++ {
-		if _, ok := mp[strArr[i]]; !ok {
-			mp[strArr[i]] = 1
-		} else {
-			mp[strArr[i]] = mp[strArr[i]] + 1
+		index := len(mystack) - 1
+		if mystack == "" {
+			mystack = mystack + str[i:i+1] // push first letter into stack
+			continue
+		}
+
+		// check if last letter matches with i+1th letter
+		if mystack[index:] != str[i:i+1] { // means a matches with b, or b matches with b (abbaca example)
+			mystack = mystack + str[i:i+1] // if not then push it to stack
+			continue
+		}
+
+		// if last stack letter matches with i+1th letter
+		if mystack[index:] == str[i:i+1] {
+			mystack = mystack[:index] // remove that last pushed element
+			continue
 		}
 	}
-	log.Println(mp)
-	for key, val := range mp {
-		if val == 1 || val%2 != 0 {
-			mystack = mystack + key
-		}
-	}
+
 	log.Println(mystack)
 	// 1 abbaca
 	// 2 aaca
 	// 3 ca
 }
 
-func PrintAllSubstrings(str string) {
-	for i := 0; i < len(str); i++ {
-		for j := 0; j < len(str)-i; j++ {
-
-		}
-	}
-}
-
 func FindSmallestNumber(arr []int) {
-	min := arr[0]
-	for i := 1; i < len(arr); i++ {
+	min := arr[0]                   // assume first number is smallest
+	for i := 1; i < len(arr); i++ { // if not then make the next min smallest
 		if min > arr[i] {
 			min = arr[i]
 		}
@@ -499,6 +502,30 @@ func FindSmallestNumber(arr []int) {
 	log.Println(min)
 }
 
+func FindSubstringOccurance(str, substr string) {
+	// abcdefabcabdaaa abc
+	totalCounter := 0 // total number of occurances
+	for i := 0; i < len(str); i++ {
+		tempI := i         // preserve old i value
+		singleCounter := 0 // use this to check if count matches with len(substring). means all the letters match.
+		for j := 0; j < len(substr); j++ {
+			if substr[j] == str[i] {
+				i++ // increment i to check next letter position
+				if i == len(str) {
+					i = tempI // don't let it go beyond array length to avoid panic
+				}
+				singleCounter++
+				continue
+			}
+			break
+		}
+		i = tempI
+		if singleCounter == len(substr) {
+			totalCounter++ // means j==i loop ran every time till all letters matched
+		}
+	}
+	log.Println(totalCounter)
+}
+
 func main() {
-	FindSmallestNumber([]int{7, 4, 1, 2, 5, 8, 9, 6, 3, 2, 1, 4, 5, 6, 9, 8, 7, 4, 5, 2, 1, 3, 6, 9, 8, 5, 2})
 }
