@@ -540,5 +540,18 @@ func PrintAllSubstrings(str string) {
 	}
 }
 
+func FindExpectedSumFromArray(arr []int, sumExpected int) {
+	for i := 0; i < len(arr); i++ {
+		for j := i + 1; j < len(arr); j++ {
+			if sum := arr[i] + arr[j]; sum == sumExpected {
+				log.Println(arr[i], arr[j])
+				break
+			}
+		}
+	}
+
+	// [1,2,5,5,8,10,15] find elements with sum=10
+}
+
 func main() {
 }
