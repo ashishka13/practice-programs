@@ -527,5 +527,18 @@ func FindSubstringOccurance(str, substr string) {
 	log.Println(totalCounter)
 }
 
+func PrintAllSubstrings(str string) {
+	n := len(str)
+	for i := 0; i < n; i++ {
+		for j := i; j < n; j++ {
+			printstring := ""
+			for k := i; k <= j; k++ {
+				printstring = printstring + string(str[k])
+			}
+			log.Println(printstring)
+		}
+	}
+}
+
 func main() {
 }
