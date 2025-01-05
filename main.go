@@ -566,8 +566,7 @@ func BlacklistAttribute(jsonMap map[string]interface{}, black string) {
 	}
 }
 
-func main() {
-
+func BlacklistAttributeInput() {
 	jsonstr := `{
 		"glossary": {
 			"title": "example glossary",
@@ -598,4 +597,8 @@ func main() {
 	BlacklistAttribute(mymap, "GlossList")
 
 	fmt.Print(mymap)
+}
+
+func main() {
+	StringRevWithoutSplChars("a$h!sH")
 }
